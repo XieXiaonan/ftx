@@ -145,8 +145,8 @@ class FtxClient:
                                         'limitOrdersOnly': limit_orders,
                                         })
 
-    def get_fills(self) -> List[dict]:
-        return self._get(f'fills')
+    def get_fills(self, market=None, start_time=None, end_time=None, order=None, order_id=None) -> List[dict]:
+        return self._get(f'fills', {'market': market, 'start_time': start_time, 'end_time': end_time, 'order': order, 'orderId': order_id})
 
     def get_balances(self) -> List[dict]:
         return self._get('wallet/balances')

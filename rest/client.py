@@ -4,7 +4,7 @@ from typing import Optional, Dict, Any, List
 
 from requests import Request, Session, Response
 import hmac
-from ciso8601 import parse_datetime
+import arrow
 
 
 
@@ -175,7 +175,7 @@ class FtxClient:
             print(f'Adding {len(response)} trades with end time {end_time}')
             if len(response) == 0:
                 break
-            end_time = min(parse_datetime(t['time']) for t in response).timestamp()
+            end_time = min(arrow.get(t['time']) for t in response).timestamp()
             if len(response) < limit:
                 break
         return results

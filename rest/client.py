@@ -29,6 +29,7 @@ class FtxClient:
     def _request(self, method: str, path: str, **kwargs) -> Any:
         request = Request(method, self._ENDPOINT + path, **kwargs)
         self._sign_request(request)
+        print(request.prepare().headers, request.prepare().body, request.prepare().url)
         response = self._session.send(request.prepare())
         return self._process_response(response)
 
@@ -43,9 +44,9 @@ class FtxClient:
         request.headers['FTX-KEY'] = self._api_key
         request.headers['FTX-SIGN'] = signature
         request.headers['FTX-TS'] = str(ts)
-        print(request.headers)
         if self._subaccount_name:
             request.headers['FTX-SUBACCOUNT'] = urllib.parse.quote(self._subaccount_name)
+        print(request.headers)
 
     def _process_response(self, response: Response) -> Any:
         try:

@@ -35,6 +35,7 @@ class FtxClient:
     def _sign_request(self, request: Request) -> None:
         ts = int(time.time() * 1000)
         prepared = request.prepare()
+        print(prepared, type(prepared))
         signature_payload = f'{ts}{prepared.method}{prepared.path_url}'.encode()
         if prepared.body:
             signature_payload += prepared.body
@@ -42,6 +43,7 @@ class FtxClient:
         request.headers['FTX-KEY'] = self._api_key
         request.headers['FTX-SIGN'] = signature
         request.headers['FTX-TS'] = str(ts)
+        print(request.headers)
         if self._subaccount_name:
             request.headers['FTX-SUBACCOUNT'] = urllib.parse.quote(self._subaccount_name)
 

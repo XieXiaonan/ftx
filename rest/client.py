@@ -29,7 +29,9 @@ class FtxClient:
     def _request(self, method: str, path: str, **kwargs) -> Any:
         request = Request(method, self._ENDPOINT + path, **kwargs)
         self._sign_request(request)
-        print(request.prepare().headers, request.prepare().body, request.prepare().url)
+        pre = request.prepare()
+        for d in dir(pre):
+            print(d, getattr(pre, d))
         response = self._session.send(request.prepare())
         return self._process_response(response)
 
